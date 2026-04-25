@@ -1,0 +1,75 @@
+(.venv) PS C:\projects\newsPortal\project> python .\manage.py shell
+19 objects imported automatically (use -v 2 for details).
+
+Python 3.14.2 (tags/v3.14.2:df79316, Dec  5 2025, 17:18:21) [MSC v.1944 64 bit (AMD64)]
+Type 'copyright', 'credits' or 'license' for more information
+IPython 9.13.0 -- An enhanced Interactive Python. Type '?' for help.
+Tip: Use the IPython.lib.demo.Demo class to load any Python script as an interactive demo.
+
+In [1]: user_1 = User.objects.create_user('user_1')
+
+In [2]: user_2 = User.objects.create_user('user_2')
+
+In [3]: author_1 = Author.objects.create(user=user_1)
+
+In [4]: author_2 = Author.objects.create(user=user_2)
+
+In [5]: category_1 = Category.objects.create(name='Category_1')
+
+In [6]: category_2 = Category.objects.create(name='Category_2')
+
+In [7]: category_3 = Category.objects.create(name='Category_3')
+
+In [8]: category_4 = Category.objects.create(name='Category_4')
+
+In [9]: post_1 = Post.objects.create(author=author_1, type='A', title='Title #1', text='Text #1')
+
+In [10]: post_1.category.add(category_1)
+
+In [11]: post_2 = Post.objects.create(author=author_2, type='A', title='Title #2', text='Text #2')
+
+In [12]: post_2.category.add(category_2, category_3)
+
+In [13]: post_3 = Post.objects.create(author=author_1, type='N', title='Title #3', text='Text #3')
+
+In [14]: post_3.category.add(category_4)
+
+In [15]: comment_1 = Comment.objects.create(post=post_2, user=user_1, text='Comment of user_1 to post_2')
+
+In [16]: comment_2 = Comment.objects.create(post=post_1, user=user_2, text='Comment of user_2 to post_1')
+
+In [17]: comment_3 = Comment.objects.create(post=post_3, user=user_1, text='Comment of user_1 to post_3')
+
+In [18]: comment_4 = Comment.objects.create(post=post_3, user=user_2, text='Comment of user_2 to post_3')
+
+In [19]: import random
+
+In [20]: comms_and_posts = [comment_1, comment_2, comment_3, comment_4, post_1, post_2, post_3]
+
+In [21]: for _ in range(100):
+    ...:     random.choice(comms_and_posts).like()
+    ...:     random.choice(comms_and_posts).dislike()
+    ...: 
+
+In [22]: author_1.update_rating()
+
+In [23]: author_2.update_rating()
+
+In [24]: top_rated_author = Author.objects.all().order_by('-rating')[0]
+
+In [25]: print(top_rated_author.user.username, top_rated_author.rating)
+user_2 1
+
+In [26]: top_rated_article = Post.objects.all().order_by('-rating')[0]
+
+In [27]: print(top_rated_article.created, top_rated_article.author.user.username, top_rated_article.rating, top_rated_article.title, top_rated_article.preview())
+2026-04-25 07:20:23.128761+00:00 user_1 2 Title #3 Text #3...
+
+In [28]: tra_comments = Comment.objects.filter(post=top_rated_article)
+
+In [29]: for comment in tra_comments:
+    ...:     print(comment.created, comment.user.username, comment.rating, comment.text)
+    ...: 
+2026-04-25 07:25:32.909176+00:00 user_2 8 Comment of user_2 to post_3
+2026-04-25 07:25:15.386128+00:00 user_1 3 Comment of user_1 to post_3
+
