@@ -1,9 +1,21 @@
 from django.urls import reverse_lazy, resolve
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
+
+
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'news/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name = 'authors').exists()
+        return context
+    
 
 # News
 class PostList(ListView):
@@ -39,10 +51,12 @@ class PostDetail(DetailView):
             return Post.objects.none()
 
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+
+    permission_required = ('news.add_post')
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -55,10 +69,12 @@ class PostCreate(CreateView):
         return super().form_valid(form)
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+
+    permission_required = ('news.change_post')
 
     def get_queryset(self):
         if self.request.path.startswith('/news/'):
