@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Здравствуй, {{ user.username }}. Новая новость в категориях «{{ categories_names }}»</h1>
+    <p>Автор: {{ post.author.user.username }}</p>
+    <h2>{{ post.title }}</h2>
+    <p>{{ preview_text }}...</p>
+</body>
+</html>

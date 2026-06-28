@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'news',
+    'news.apps.NewsConfig',
     'django_filters',
     'sign',
     'allauth',
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # ... include the providers you want to enable:
     'allauth.socialaccount.providers.google',
+    'django_apscheduler',
 ]
 
 SITE_ID = 1
@@ -155,9 +156,19 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-ACCOUNT_SIGNUP_FIELDS =  ['email*', 'password1*', 'password2*']
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
-ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+#ACCOUNT_UNIQUE_EMAIL = True
+#ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+#ACCOUNT_LOGIN_METHODS = {'email'}
+#ACCOUNT_EMAIL_VERIFICATION = 'none'
+#ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'makarendan-yan'
+EMAIL_HOST_PASSWORD = 'urpwgnjvcgxzlxtf'  # Не обычный пароль, а App Password
+DEFAULT_FROM_EMAIL = 'makarendan-yan@yandex.ru'
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds

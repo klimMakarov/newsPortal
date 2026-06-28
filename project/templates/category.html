@@ -1,0 +1,21 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <h1>{{ category.name }}</h1>
+    <br>
+    {% if user.is_authenticated %}
+        <form method="post", action="{% url 'toggle_subscription' category.pk %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+
+            {% if is_subscribed %}
+                <button type="submit" disabled>Вы подписаны</button>
+            {% else %}
+                <button type="submit">Подписаться на рассылку</button>
+            {% endif %}
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Войдите</a>, чтобы подписаться на рассылку</p>
+    {% endif %}
+    <hr>
+{% endblock content %}

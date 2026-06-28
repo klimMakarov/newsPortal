@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Здравствуйте, {{ user.username }}!</h1>
+    <p>В разделе «{{ category.name }}» за последнюю неделю появились новые статьи:</p>
+    <ul>
+      {% for post in posts %}
+        <li>
+          <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+          ({{ post.created|date:"d.m.Y" }})
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

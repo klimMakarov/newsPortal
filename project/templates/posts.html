@@ -14,17 +14,25 @@
     </form>
     <hr>
     {% if posts %}
-    <table>
+    <table class="posts-table">
         <tr>
             <td>Заголовок</td>
             <td>Дата публикации</td>
             <td>Текст</td>
+            <td>Категория</td>
         </tr>
         {% for post in posts %}
         <tr>
             <td>{{ post.title|censor }}</td>
             <td>{{ post.created|date:'d.m.y H:i' }}</td>
-            <td>{{ post.text|truncatechars:20|censor }}</td>
+            <td>{{ post.text|truncatechars:30|censor }}</td>
+            <td>
+                {% for category in post.category.all %}
+                    {{ category.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                —
+                {% endfor %}
+            </td>
         </tr>
         {% endfor %}
     </table>
