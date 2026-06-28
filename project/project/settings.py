@@ -167,8 +167,14 @@ EMAIL_HOST = 'smtp.yandex.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'makarendan-yan'
-EMAIL_HOST_PASSWORD = 'urpwgnjvcgxzlxtf'  # Не обычный пароль, а App Password
+EMAIL_HOST_PASSWORD = 'pxopsrzhutpfykgb'  # Не обычный пароль, а App Password
 DEFAULT_FROM_EMAIL = 'makarendan-yan@yandex.ru'
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+CELERY_BROKER_URL = 'redis://default:qaTl5J52nUMRq90FIzWwkVFAYJv9Y7zh@redis-12148.c10.us-east-1-2.ec2.cloud.redislabs.com:12148'
+CELERY_RESULT_BACKEND = 'redis://default:qaTl5J52nUMRq90FIzWwkVFAYJv9Y7zh@redis-12148.c10.us-east-1-2.ec2.cloud.redislabs.com:12148'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

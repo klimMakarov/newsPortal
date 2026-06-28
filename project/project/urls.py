@@ -26,4 +26,5 @@ urlpatterns = [
     # path('news/', include('news.urls_news')),
     # path('articles/', include('news.urls_articles')),
     # path('', include('sign.urls')),
+    #path('hello/', include('news.urls'))
 ]

@@ -8,4 +8,5 @@ urlpatterns = [
     path('articles/', include('news.urls_articles')),
     path('category/<int:pk>', CategoryView.as_view()),
     path('category/<int:pk>/toggle-subscription', ToggleSubscriptionView.as_view(), name='toggle_subscription'),
+    #path('hello/', HelloView.as_view())
 ]

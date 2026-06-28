@@ -12,7 +12,18 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.http import HttpResponse
+#from .tasks import hello, printer
+from django.utils import timezone
+from datetime import timedelta
 
+
+# class HelloView(View):
+#     def get(self, request):
+#         printer.apply_async([10], 
+#                             eta = timezone.now() + timedelta(seconds=5))
+#         hello.delay()
+#         return HttpResponse('Hello!')
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
