@@ -1,5 +1,6 @@
 {% extends 'flatpages/default.html' %}
 {% load custom_filters %}
+{% load cache_example_filters %}
 
 {% block title %}
     {{ post.title }}
@@ -9,4 +10,8 @@
     <h3>{{ post.title|censor }}</h3>
     <h3>{{ post.text|censor }}</h3>
     <h3>{{ post.created|date:'d.m.y' }}</h3>
+    {% load cache %}
+        {% cache 600 cache_example %}
+            {{ 2|pow:113111221|short }}
+        {% endcache %}
 {% endblock content %}

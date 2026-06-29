@@ -52,7 +52,14 @@ class PostList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filterset'] = self.filterset
+
+        if '/articles/' in self.request.path:
+            context['detail_url_name'] = 'article_detail'
+        else:
+            context['detail_url_name'] = 'news_detail'
+        
         return context
+    
 
 
 class PostDetail(DetailView):

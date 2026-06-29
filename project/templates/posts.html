@@ -2,12 +2,19 @@
 {% load custom_filters %}
 {% load custom_tags %}
 
+
 {% block title %}
     Posts
 {% endblock title %}
 
 {% block content %}
     <h1>Все новости и статьи</h1>
+    {% load cache_example_filters %}
+    {% load cache %}
+    {% cache 20 example_pow %}
+        {{ 2|pow:113111221|short }}
+    {% endcache %}
+
     <form action="" method="get">
         {{ filterset.form.as_p }}
         <input type="submit" value="Найти">

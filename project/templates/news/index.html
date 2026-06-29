@@ -1,4 +1,5 @@
 {% extends 'flatpages/default.html' %}
+{% load cache_example_filters %}
 
 {% block content %}
 
@@ -20,4 +21,10 @@
   {% csrf_token %}
   <button type="submit">Выйти</button>
 </form>
+
+
+{% load cache %}
+        {% cache 60 cache_example %}
+            {{ 2|pow:113111221|short }}
+        {% endcache %}
 {% endblock %}

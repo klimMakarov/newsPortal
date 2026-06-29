@@ -1,6 +1,8 @@
 from django.urls import reverse
 from django.db import models
 from django.conf.global_settings import AUTH_USER_MODEL
+from django.core.cache import cache
+
 
 # Create your models here.
 class Author(models.Model):
@@ -70,6 +72,17 @@ class Post(models.Model):
     def get_absolute_url(self):
         view_name = 'news_detail' if self.type == 'N' else 'article_detail'
         return reverse(view_name, args=[str(self.id)])
+    
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete(f'post-{self.pk}')
 
 
 class PostCategory(models.Model):
